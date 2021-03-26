@@ -1,0 +1,25 @@
+title: Game
+tags: 
+colorID: 0
+position: 860,411
+---
+Game: Hello Player!
+[[Who are you?|Game.Intro]]
+[[Where am I?|Game.Location]]
+===
+title: Game.Intro
+tags: 
+colorID: 0
+position: 981,188
+---
+Game: I am Scalpel's Edge! (Name is WIP)
+<<stop>>
+===
+title: Game.Location
+tags: 
+colorID: 0
+position: 1201,188
+---
+Game: You are in a Medical station behind the front lines.
+<<stop>>
+===
