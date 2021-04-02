@@ -8,6 +8,7 @@ public class cameraScript : MonoBehaviour
 
     [SerializeField]
     public Transform playerBody;
+    public bool locked=false;
 
     float xRotation = 0f;
 
@@ -17,17 +18,28 @@ public class cameraScript : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
     }
 
+    void freeCursor ()
+    {
+        Cursor.lockState = CursorLockMode.None;
+
+    }
+
     // Update is called once per frame
     void Update()
     {
-        //Get Mouse Coordinates
-        float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
-        float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        xRotation -= mouseY;
-        xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+        if(!locked) {
+            //Get Mouse Coordinates
+            float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
+            float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
 
-        transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
-        playerBody.Rotate(Vector3.up * mouseX);
+            xRotation -= mouseY;
+            xRotation = Mathf.Clamp(xRotation, -90f, 90f);
+
+            transform.localRotation = Quaternion.Euler(xRotation, 0f, 0f);
+            playerBody.Rotate(Vector3.up * mouseX);
+
+        }
+        
     }
 }
