@@ -23,7 +23,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 */
-
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Yarn.Unity.Example {
@@ -38,13 +39,64 @@ namespace Yarn.Unity.Example {
 
         [Header("Optional")]
         public YarnProgram scriptToLoad;
-
+        
+        public DialogueRunner dialogueRunner;
         void Start () {
             if (scriptToLoad != null) {
-                DialogueRunner dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
-                dialogueRunner.Add(scriptToLoad);                
+                Debug.Log(scriptToLoad);
+                //dialogueRunner = FindObjectOfType<Yarn.Unity.DialogueRunner>();
+                dialogueRunner.Add(scriptToLoad); 
+                
+                rb.isKinematic = false;
+                coll.isTrigger = false;               
+            }
+        }
+
+            public Rigidbody rb;
+            public BoxCollider coll;
+            public Transform player, HandContainer, cam;
+
+            [SerializeField]
+            private float speakingRange;
+
+            //public float dropForwardForce, dropUpwardForce;
+
+            public bool equipped;
+            public static bool slotFull;
+
+            //variables needed for properly targeting
+            [SerializeField]
+            private string selectableTag = "Selectable";
+
+    
+    
+
+            // Update is called once per frame
+            void Update()
+            {
+                //Debug.Log("check 2");
+                Vector3 distanceToPlayer = player.position - transform.position;
+                //Debug.Log(distanceToPlayer.magnitude);
+                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                RaycastHit hit;
+                if (Physics.Raycast(ray, out hit)) {
+                //Debug.Log("check 0");
+                var selection = hit.transform;
+                if (selection.CompareTag(selectableTag)) {
+                    //Debug.Log("Check 1");
+                    var selectionRenderer = selection.GetComponent<Renderer>();
+                    if (selectionRenderer != null) {
+                        if (Input.GetKeyDown("t") && distanceToPlayer.magnitude <= speakingRange) {
+                            //PickUp();
+                            //Debug.Log("check 2");
+                            dialogueRunner.StartDialogue(talkToNode);
+
+                        } 
+                    }
+                }
+                }
+
+        
             }
         }
     }
-
-}
